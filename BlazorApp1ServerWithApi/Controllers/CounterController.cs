@@ -1,7 +1,6 @@
 ﻿using BlazorApp1ServerWithApi.Common;
-using Microsoft.AspNetCore.Http;
+using BlazorApp1ServerWithApi.Servicves;
 using Microsoft.AspNetCore.Mvc;
-using static BlazorApp1ServerWithApi.Controllers.CounterController;
 
 namespace BlazorApp1ServerWithApi.Controllers
 {
@@ -10,10 +9,12 @@ namespace BlazorApp1ServerWithApi.Controllers
     public class CounterController : ControllerBase
     {
         private readonly IEventBus _eventBus;
+        private readonly ICounterService _counterService;
 
-        public CounterController(IEventBus eventBus)
+        public CounterController(IEventBus eventBus, ICounterService counterService)
         {
             _eventBus = eventBus;
+            _counterService = counterService;
         }
 
         [HttpGet]
@@ -21,6 +22,13 @@ namespace BlazorApp1ServerWithApi.Controllers
         {
             _eventBus.PushCounterRequestReceived(count);
             return Ok("Hello, World!");
+        }
+
+        [HttpPost]
+        public IActionResult Post(CounterDto counterDto)
+        {
+            CounterVm counterVm = _counterService.SetCounterVm(counterDto);
+            return Ok(counterVm);
         }
     }
 }

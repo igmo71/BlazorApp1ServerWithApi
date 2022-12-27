@@ -1,5 +1,6 @@
 using BlazorApp1ServerWithApi.Common;
 using BlazorApp1ServerWithApi.Data;
+using BlazorApp1ServerWithApi.Servicves;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -16,6 +17,7 @@ namespace BlazorApp1ServerWithApi
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddSingleton<IEventBus, EventBus>();
+            builder.Services.AddSingleton<ICounterService, CounterService>();
             builder.Services.AddSingleton<WeatherForecastService>();
 
             var app = builder.Build();
