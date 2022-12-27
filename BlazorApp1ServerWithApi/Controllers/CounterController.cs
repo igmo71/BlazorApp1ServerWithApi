@@ -19,7 +19,7 @@ namespace BlazorApp1ServerWithApi.Controllers
         [HttpGet]
         public IActionResult Get(int count)
         {
-            _eventBus.Push(count);
+            _eventBus.PushCounterRequestReceived(count);
             return Ok("Hello, World!");
         }
     }

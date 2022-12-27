@@ -5,9 +5,9 @@ namespace BlazorApp1ServerWithApi.Common
     public interface IEventBus
     {
         //public event QueryReceivedEventHandler? QueryReceived;
-        public event EventHandler<CounterRequestReceivedEventArgs>? QueryReceived;
+        public event EventHandler<CounterRequestReceivedEventArgs>? CounterRequestReceived;
         public void Push();
-        public void Push(int count);
+        public void PushCounterRequestReceived(int count);
 
     }
 
@@ -16,12 +16,12 @@ namespace BlazorApp1ServerWithApi.Common
         //public delegate Task QueryReceivedEventHandler(object source, QueryReceivedEventArgs eventArgs);
         //public event QueryReceivedEventHandler? QueryReceived;
 
-        public event EventHandler<CounterRequestReceivedEventArgs>? QueryReceived;
+        public event EventHandler<CounterRequestReceivedEventArgs>? CounterRequestReceived;
 
         protected virtual void OnQueryReceived()
         {
-            if(QueryReceived != null)
-                QueryReceived(this, null);    
+            if(CounterRequestReceived != null)
+                CounterRequestReceived(this, null);    
         }
 
         public void Push()
@@ -29,12 +29,12 @@ namespace BlazorApp1ServerWithApi.Common
             OnQueryReceived();
         }
 
-        public virtual void Push(int count)
+        public virtual void PushCounterRequestReceived(int count)
         {
             //if (QueryReceived != null)
             //    QueryReceived(this, new QueryReceivedEventArgs { Count = count});
 
-            QueryReceived?.Invoke(this, new CounterRequestReceivedEventArgs { Count = count });
+            CounterRequestReceived?.Invoke(this, new CounterRequestReceivedEventArgs { Count = count });
         }
     }
 }

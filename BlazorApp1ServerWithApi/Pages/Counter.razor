@@ -17,7 +17,7 @@
     {
         base.OnInitialized();
 
-        _eventBus.QueryReceived += async (source, eventArgs) => await OnQueryReceived(source, eventArgs);
+        _eventBus.CounterRequestReceived += async (source, eventArgs) => await OnQueryReceived(source, eventArgs);
     }
 
     private void IncrementCount(int count = 1)
