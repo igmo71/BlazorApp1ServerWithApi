@@ -1,0 +1,41 @@
+﻿@page "/counter"
+@using BlazorApp1ServerWithApi.Common
+@inject IEventBus _eventBus
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="() => IncrementCount()">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        _eventBus.QueryReceived += async (source, eventArgs) => await OnQueryReceived(source, eventArgs);
+    }
+
+    private void IncrementCount(int count = 1)
+    {
+        currentCount += count;
+    }
+
+    private async Task OnQueryReceived(object source, CounterRequestReceivedEventArgs eventArgs)
+    {
+        if (eventArgs is null)
+        {
+            throw new ArgumentNullException(nameof(eventArgs));
+        }
+
+        await InvokeAsync(() =>
+    {
+            IncrementCount(eventArgs.Count);
+            StateHasChanged();
+        });
+    }
+}
